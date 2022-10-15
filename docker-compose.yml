@@ -1,0 +1,24 @@
+version: '3.1'
+services:
+  tutobdd:
+    #image: tutobdd
+    build: bdd
+    volumes:
+      -  ./mysql_data:/var/lib/mysql
+    environment: 
+      - MYSQL_ROOT_PASSWORD=root
+    platform: linux/amd64
+  tutoapi:
+    #image: tutoapi
+    build: tutoapi
+    ports:
+      - 3001:3000
+    environment:
+      - MYSQL_HOST=tutobdd
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=workshop
+    # depends_on does not wait for db and redis to be “ready” before starting web - only until they have been started. 
+    # If you need to wait for a service to be ready, create a loop to wait your service is ready
+    depends_on:
+     - tutobdd

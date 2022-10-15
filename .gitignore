@@ -4,6 +4,7 @@ built/
 .idea
 .history
 mysqldata
+mysql_data
 
 *.iml
 
