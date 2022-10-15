@@ -1,7 +1,9 @@
 
-tutoapi/node_modules/*
+tutoapi/node_modules
 built/
 .idea
+.history
+mysqldata
 
 *.iml
 

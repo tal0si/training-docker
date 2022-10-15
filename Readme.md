@@ -36,7 +36,25 @@ export MYSQL_DATABASE=workshop;
 and run the api with
 ```
 npm install
+npm build
 npm run start
 ```
 
+## launch with docker
 
+```
+cd bdd
+docker build -t tutobdd .
+
+cd ../tutoapi
+npm install
+docker build -t tutoapi .
+
+# with docker run 
+docker network create tutonetwork
+docker run --name tutomysql -d -v /Users/myname/myfappfolder/mysqldata/:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root --network tutonetwork tutobdd 
+docker run --name tutoapi -d -p 3001:3000  -e MYSQL_HOST=tutomysql -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DATABASE=workshop --network tutonetwork tutoapi
+
+```
+
+See url http://localhost:3001/users and http://localhost:3001/
