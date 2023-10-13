@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tuto-bdd
+  name: tuto-bdd
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: tuto-bdd
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: tuto-bdd
+    spec:
+      containers:
+      - image: nicodeur/k8s-bdd:mac-latest
+        imagePullPolicy: Always
+        name: k8s-bdd
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: tuto-secret
+                key: password
+        volumeMounts:
+          - mountPath: "/var/lib/mysql"
+            name: tuto-storage
+            subPath: mysql-tuto
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      volumes:
+        - name: tuto-storage
+          persistentVolumeClaim:
+            claimName: pvc-tuto-bdd
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
