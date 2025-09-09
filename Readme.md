@@ -36,6 +36,7 @@ export MYSQL_DATABASE=workshop;
 and run the api with
 ```
 npm install
+npm run build
 npm run start
 ```
 
