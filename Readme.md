@@ -10,7 +10,7 @@ Project contains 2 parts :
 
 ### launch database part
 
-run a mysql database on your environment.
+run a mysql 5.7 database on your environment.
 
 To add data on mysql database, you can type 
 ```
