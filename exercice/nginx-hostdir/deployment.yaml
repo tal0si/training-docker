@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emptydir-deployment
+  labels:
+    app: emptydir-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emptydir-app
+  template:
+    metadata:
+      labels: 
+        app: emptydir-app
+    spec:
+      containers:
+      - name: monnginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: monvolume
+      - name: mondebian
+        image: debian
+        command: ["sleep", "600"]
+        volumeMounts:
+        - mountPath: /worktmp/
+          name: monvolume
+      - name: monalpine
+        image: alpine
+        command: ['sh', '-c', 'echo "Adeo X Talosi" >/myjob/index.html' ]
+        volumeMounts:
+        - mountPath: /myjob/
+          name: monvolume
+      volumes:
+      - name: monvolume
+        emptyDir: {}
+
